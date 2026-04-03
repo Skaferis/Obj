@@ -19,7 +19,7 @@ Projektas suskirstytas į kelis failus:
 - studentas.h – Studentas struktūra
 - skaiciavimai.cpp / .h – galutinio balo ir medianos skaičiavimas
 - ivestis.cpp / .h – įvesties validacija
-- isvestis.cpp / .h – rezultatų spausdinimas
+- isvesti.cpp / .h – rezultatų spausdinimas
 - generavimas.cpp / .h – failų generavimas
 
 ## Sugeneruoti duomenų failai
@@ -59,7 +59,7 @@ Failų generavimas taip pat tampa žymiai lėtesnis su labai dideliais duomenų 
 
 Programa kompiliuojama:
 
-g++ -O2 main.cpp skaiciavimai.cpp ivestis.cpp isvestis.cpp generavimas.cpp -o programa
+g++ -O2 main.cpp skaiciavimai.cpp ivestis.cpp isvesti.cpp generavimas.cpp -o programa
 
 Paleidimas:
 

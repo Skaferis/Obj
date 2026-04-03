@@ -31,14 +31,12 @@ using std::stringstream;
 using std::ofstream;
 
 int ranka() {
-    int stud;
     vector<Studentas> grupe;
 
-    stud = ivestiSveika("Kiek studentu grupeje? ");
-
-    for (int ii = 0; ii < stud; ii++) {
-        Studentas A;          // naujas studentas kiekvieną kartą
+    while (true) {
+        Studentas A;
         int sum = 0;
+        int n = 0;
 
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
@@ -48,47 +46,82 @@ int ranka() {
             cin >> A.vardas >> A.pavarde;
         }
 
-        int n, temp;
+        cout << "Iveskite ND pazymius po viena (-1 jei baigti): ";
 
-        n = ivestiSveika("Kiek bus pazymiu? ");
-
-        cout << "Iveskite pazymius: ";
-        
-        for (int i = 0; i < n; i++) {
+        while (true) {
+            int temp;
             cin >> temp;
+
             while (cin.fail()) {
-                cout << "Iveskite pazymius, iveskite skaiciu: ";
+                cout << "Klaida. Iveskite skaiciu: ";
                 cin.clear();
                 cin.ignore(1000, '\n');
                 cin >> temp;
             }
+
+            if (temp == -1) {
+                break;
+            }
+
+            if (temp < 1 || temp > 10) {
+                cout << "Pazymys turi buti nuo 1 iki 10. Bandykite dar karta.\n";
+                continue;
+            }
+
             A.paz.push_back(temp);
             sum += temp;
+            n++;
         }
 
-        A.med = skaiciuotiMediana(A.paz);
-        
         A.exam = ivestiSveika("Iveskite egzamino paz: ");
 
-        A.rez = skaiciuotiGalutini(sum, n, A.exam);
+        while (A.exam < 1 || A.exam > 10) {
+            cout << "Egzamino pazymys turi buti nuo 1 iki 10. Bandykite dar karta.\n";
+            A.exam = ivestiSveika("Iveskite egzamino paz: ");
+        }
 
-        grupe.push_back(A);   // tik čia dedam į grupę
+        double ndMediana = skaiciuotiMediana(A.paz);
+        A.rez = skaiciuotiGalutini(sum, n, A.exam);
+        A.med = ndMediana * 0.4 + A.exam * 0.6;
+
+        grupe.push_back(A);
+
+        char testi;
+        cout << "Ar norite ivesti dar viena studenta? (t/n): ";
+        cin >> testi;
+
+        while (cin.fail() || (testi != 't' && testi != 'T' && testi != 'n' && testi != 'N')) {
+            cout << "Iveskite t arba n: ";
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cin >> testi;
+        }
+
+        if (testi == 'n' || testi == 'N') {
+            break;
+        }
+    }
+
+    if (grupe.empty()) {
+        cout << "Neivestas nei vienas studentas.\n";
+        return 0;
     }
 
     cout << "Ka norite matyti (1 - vidurkis, 2 - mediana)? ";
     int pasirinkimas;
     cin >> pasirinkimas;
 
+    while (cin.fail() || (pasirinkimas != 1 && pasirinkimas != 2)) {
+        cout << "Iveskite 1 arba 2: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cin >> pasirinkimas;
+    }
+
     if (pasirinkimas == 1) {
         spausdinti(grupe, false);
-    }
-
-    if (pasirinkimas == 2) {
+    } else {
         spausdinti(grupe, true);
-    }
-
-    if (pasirinkimas != 1 && pasirinkimas != 2) {
-        cout << "Neteisingas pasirinkimas.\n";
     }
 
     return 0;
@@ -171,11 +204,11 @@ int automatiskai() {
             sum += temp;
         }
 
-        A.med = skaiciuotiMediana(A.paz);
+        A.exam = dist10(gen);
 
-        A.exam = dist10(gen); // atsitiktinis egzamino pažymys nuo 1 iki 10
-
+        double ndMediana = skaiciuotiMediana(A.paz);
         A.rez = skaiciuotiGalutini(sum, n, A.exam);
+        A.med = ndMediana * 0.4 + A.exam * 0.6;
 
         grupe.push_back(A);   // čia dedam į grupę
     }
@@ -256,7 +289,8 @@ int skaitymas() {
 
         A.rez = skaiciuotiGalutini(sum, stulpsk, A.exam);
 
-        A.med = skaiciuotiMediana(A.paz);
+        double ndMediana = skaiciuotiMediana(A.paz);
+        A.med = ndMediana * 0.4 + A.exam * 0.6;
 
         grupe.push_back(A);
 
