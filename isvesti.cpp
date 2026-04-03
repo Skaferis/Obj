@@ -12,9 +12,9 @@ void spausdinti(const std::vector<Studentas>& grupe, bool rodytiMediana) {
          << std::setw(15) << "Pavarde";
 
     if (rodytiMediana)
-        cout << std::setw(8) << "Med";
+        cout << std::setw(20) << "Galutinis (Med.)";
     else
-        cout << std::setw(8) << "Rez";
+        cout << std::setw(20) << "Galutinis (Vid.)";
 
     cout << "\n";
 
@@ -26,9 +26,9 @@ void spausdinti(const std::vector<Studentas>& grupe, bool rodytiMediana) {
              << std::fixed << std::setprecision(2);
 
         if (rodytiMediana)
-            cout << std::setw(8) << s.med;
+            cout << std::setw(20) << s.med;
         else
-            cout << std::setw(8) << s.rez;
+            cout << std::setw(20) << s.rez;
 
         cout << "\n";
     }
